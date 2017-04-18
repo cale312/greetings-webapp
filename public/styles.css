@@ -1,0 +1,33 @@
+body {background: skyblue}
+h1 {
+  font-family: verdana;
+  font-size: 100px;
+  text-align: center;
+  color: #fff;
+}
+p {
+  text-align: center;
+  font-family: verdana;
+  color: #fff;
+  font-size: 30px;
+}
+form p {display: inline-block;}
+label {
+  color: #fff;
+  font-weight: bolder;
+}
+form {
+  text-align: center;
+  font-size: 40px;
+}
+.name {
+  padding: 5px;
+}
+.greet-btn {
+  padding: 5px 50px;
+  background: rgba(0, 0, 255, 0.3);
+  cursor: pointer;
+  font-weight: bolder;
+}
+li {font-size: 30px; font-weight: bolder; color: #fff;}
+.names {color: white; font-size: 30px;}
