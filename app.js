@@ -1,7 +1,7 @@
 var express = require('express');
-var app = express();
 var exphbs  = require('express-handlebars');
 var bodyParser = require('body-parser');
+var app = express();
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var names = [];
 var count = 1;
