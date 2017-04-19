@@ -4,6 +4,7 @@ var exphbs  = require('express-handlebars');
 var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var names = [];
+var count = 1;
 //view engine
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
@@ -17,27 +18,26 @@ app.get('/', function(req, res) {
 
 app.get('/greeting', function (req, res) {
   console.log('Request was made on: ' + req.url);
-  res.render('greeting', {data: req.query});
+  res.render('greeting');
 });
 
 app.post('/greeting', urlencodedParser, function (req, res) {
   console.log(req.body);
   if (req.body.lang === 'english') {
-    res.render('english', {data: req.body});
+    res.render('english', {data: req.body, count: count});
+    count += 1;
   } else if (req.body.lang === 'espanol') {
-    res.render('espanol', {data: req.body});
+    res.render('espanol', {data: req.body, count: count});
+    count += 1;
   } else if (req.body.lang === 'xhosa') {
-    res.render('xhosa', {data: req.body});
+    res.render('xhosa', {data: req.body, count: count});
+    count += 1;
   } else {
     res.sendFile(__dirname + '/404.html', function () {
       console.log('Error!!');
     });
   }
-
-  names.push({
-    name : req.body.name
-  });
-
+  names.push({name : req.body.name});
   console.log(names);
 });
 

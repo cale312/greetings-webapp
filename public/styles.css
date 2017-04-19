@@ -1,4 +1,4 @@
-body {background: skyblue}
+body {background: skyblue; text-align: center;}
 h1 {
   font-family: verdana;
   font-size: 100px;
@@ -29,5 +29,6 @@ form {
   cursor: pointer;
   font-weight: bolder;
 }
-li {font-size: 30px; font-weight: bolder; color: #fff;}
+li {font-size: 30px; font-weight: bolder; color: #fff; list-style: none;}
 .names {color: white; font-size: 30px;}
+.counter {font-size: 90px; font-weight: bolder; color: #fff; text-decoration: underline;}
