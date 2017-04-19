@@ -4,7 +4,8 @@
   "description": "greetings express app",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "engines": {
     "node": "4.2.4"
@@ -19,6 +20,5 @@
     "mongoose": "^4.9.5",
     "node": "0.0.0",
     "nodemon": "^1.11.0",
-    "start": "^5.1.0"
   }
 }
