@@ -6,9 +6,10 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var names = [];
 var count = 1;
 //view engine
+app.use('/public', express.static('public'));
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
-app.use('/public', express.static('public'));
+app.set('port', (process.env.PORT || 5000))
 
 //routes
 app.get('/', function(req, res) {
@@ -46,6 +47,6 @@ app.get('/history', function (rq, res) {
 });
 
 //server
-app.listen(3000, function () {
-  console.log('Server running on port 3000');
+app.listen(app.get('port'), function () {
+  console.log('Server running on port 5000');
 });
