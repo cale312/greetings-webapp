@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var app = express();
 var names = [];
-var count = 1;
+var count = "0";
 
 //check connection to the db
 var db = mongoose.connection;
@@ -14,9 +14,7 @@ db.once('open', function() {
 });
 
 //a 'blueprint' for how it will accept the names
-var greetSchema = mongoose.Schema({
-  name: String
-});
+var greetSchema = mongoose.Schema({name: String});
 
 //how it will be model in the db
 var Greetings = mongoose.model('Greetings', greetSchema);
@@ -24,9 +22,11 @@ var Greetings = mongoose.model('Greetings', greetSchema);
 //connect to the dB
 mongoose.connect('mongodb://localhost/greetings');
 
-//view engine
+//static files
 app.use('/public', express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
+
+//view engine
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 var port = process.env.PORT || 5000;
@@ -44,30 +44,24 @@ app.get('/greeting', function (req, res) {
 });
 
 app.post('/greeting', function (req, res) {
-  var newName = new Greetings({name: req.body.name});
-  console.log(req.body);
-  if (req.body.lang === 'english' && req.body.name !== "") {
-    res.render('greeting', {name: req.body, count: count, lang: 'Hello'});
-    names.push({name : req.body.name});
-    count += 1;
-  } else if (req.body.lang === 'xhosa' && req.body.name !== "") {
-    res.render('greeting', {name: req.body, count: count, lang: 'Molo'});
-    names.push({name : req.body.name});
-    count += 1;
-  } else if (req.body.lang === 'espanol' && req.body.name !== "") {
-    res.render('greeting', {name: req.body, count: count, lang: 'Hola'});
-    names.push({name : req.body.name});
-    count += 1;
+  if (req.body.lang === 'english' && req.body.nameInput !== "") {
+    names.push(req.body);
+    count = names.length;
+    res.render('greeting', {name: req.body.nameInput, count: count, lang: 'Hello'});
+  } else if (req.body.lang === 'xhosa' && req.body.nameInput !== "") {
+    names.push(req.body);
+    count = names.length;
+    res.render('greeting', {name: req.body.nameInput, count: count, lang: 'Molo'});
+  } else if (req.body.lang === 'espanol' && req.body.nameInput !== "") {
+    names.push(req.body);
+    count = names.length;
+    res.render('greeting', {name: req.body.nameInput, count: count, lang: 'Hola'});
   } else {
     res.sendFile(__dirname + '/404.html', function () {console.log('404 Error!!');});
   }
-  newName.save(function (err) {
-    if (err) {
-      console.log('error saving name');
-    } else {
-      console.log('name has been successfully stored in the db');
-    }
-  });
+  var newName = new Greetings({name: req.body.nameInput});
+
+  console.log(req.body);
   console.log(names);
 });
 
