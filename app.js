@@ -60,7 +60,13 @@ app.post('/greeting', function (req, res) {
     res.sendFile(__dirname + '/404.html', function () {console.log('404 Error!!');});
   }
   var newName = new Greetings({name: req.body.nameInput});
-
+  newName.save(function(err) {
+    if (err) {
+      console.log('error sanving name');
+    } else {
+      console.log('Name saved successfully');
+    }
+  });
   console.log(req.body);
   console.log(names);
 });
