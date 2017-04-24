@@ -3,8 +3,9 @@ var exphbs  = require('express-handlebars');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var app = express();
+var namesGreeted = {};
 var names = [];
-var count = "0";
+var count = 0;
 
 //check connection to the db
 var db = mongoose.connection;
@@ -14,7 +15,7 @@ db.once('open', function() {
 });
 
 //a 'blueprint' for how it will accept the names
-var greetSchema = mongoose.Schema({name: String});
+var greetSchema = mongoose.Schema({name: String, greetCount: Number});
 
 //how it will be model in the db
 var Greetings = mongoose.model('Greetings', greetSchema);
@@ -43,36 +44,49 @@ app.get('/greeting', function (req, res) {
   res.render('greeting');
 });
 
-app.post('/greeting', function (req, res) {
-  if (req.body.lang === 'english' && req.body.nameInput !== "") {
-    names.push(req.body);
-    count = names.length;
-    res.render('greeting', {name: req.body.nameInput, count: count, lang: 'Hello'});
-  } else if (req.body.lang === 'xhosa' && req.body.nameInput !== "") {
-    names.push(req.body);
-    count = names.length;
-    res.render('greeting', {name: req.body.nameInput, count: count, lang: 'Molo'});
-  } else if (req.body.lang === 'espanol' && req.body.nameInput !== "") {
-    names.push(req.body);
-    count = names.length;
-    res.render('greeting', {name: req.body.nameInput, count: count, lang: 'Hola'});
-  } else {
-    res.sendFile(__dirname + '/404.html', function () {console.log('404 Error!!');});
-  }
-  var newName = new Greetings({name: req.body.nameInput});
-  newName.save(function(err) {
-    if (err) {
-      console.log('error sanving name');
+function manageGreeting(newName, cb) {
+  Greetings.findOne({name: newName}, function(err, greetedName) {
+    if (greetedName) {
+      Greetings.update({name: newName}, {counter: newName.greetCount + 1}, cb);
+      return;
     } else {
-      console.log('Name saved successfully');
+      Greetings.create({name: newName}, cb);
+      return;
     }
   });
-  console.log(req.body);
-  console.log(names);
+}
+
+app.post('/greeting', function (req, res, next) {
+  for (var i = 0; i < namesGreeted.length; i++) {};
+
+  var language = req.body.lang;
+  var newName = req.body.nameInput;
+
+  function getMessage(language) {
+    if (language === 'english') {
+      return 'Hello';
+    } else if (language === 'espanol') {
+      return 'Hola';
+    } else if (language === 'xhosa') {
+      return 'Molo';
+    }
+  }
+  manageGreeting(newName, function(err, greeting) {
+    if (err) {
+      return next(err);
+      //console.log('Error storing name');
+    } else {
+      //return res.redirect('greeting');
+      var greetingMessage = getMessage(language);
+      //??? render with the new greeting...
+      res.render('greeting', {name: newName, count: count, greeting: greetingMessage});
+    }
+  });
 });
 
-app.get('/history', function (rq, res) {
-  res.render('history', {data: names, count: count});
+app.get('/history', function (req, res) {
+  console.log('Request was made on: ' + req.url);
+  res.render('history', {names: names, count: count});
 });
 
 //server
