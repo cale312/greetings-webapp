@@ -1,10 +1,8 @@
 <title>History</title>
-<ul>
-  {{#each data}}
-  <li class="names">{{names.nameInput}}</li>
-  {{/each}}
-</ul>
 <br/>
-<div class="counter">
-  There are: {{{count}}} number of people greeted
-</div>
+<h4><u>Greeted People</u></h4>
+<ol>
+  {{#each names}}
+  <li>{{this.nameInput}}</li>
+  {{/each}}
+</ol>
