@@ -1,9 +1,16 @@
 body {background: skyblue; text-align: center;}
 h1 {
   font-family: verdana;
-  font-size: 100px;
+  font-size: 90px;
   text-align: center;
   color: #fff;
+}
+h2 {
+  font-family: verdana;
+  font-size: 50px;
+  text-align: center;
+  color: #fff;
+  letter-spacing: .1em;
 }
 p {
   text-align: center;
@@ -29,7 +36,7 @@ form {
   cursor: pointer;
   font-weight: bolder;
 }
-nav {font-size: 30px; font-weight: bolder; color: #fff; list-style: none; display: inline-block;}
+.nav {font-size: 30px; font-weight: bolder; color: #fff; list-style: none; display: inline-block;}
 ol {clear: both; color: blue; font-weight: 100; display: inline-block;}
 .names {color: white; font-size: 30px;}
 .counter {font-size: 50px; font-weight: bolder; color: #fff;}
