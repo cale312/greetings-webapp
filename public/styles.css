@@ -11,7 +11,7 @@ p {
   color: #fff;
   font-size: 30px;
 }
-form p {display: inline-block;}
+form p {display: inline-block; cursor: pointer;}
 label {
   color: #fff;
   font-weight: bolder;
@@ -29,6 +29,7 @@ form {
   cursor: pointer;
   font-weight: bolder;
 }
-li {font-size: 30px; font-weight: bolder; color: #fff; list-style: none;}
+nav {font-size: 30px; font-weight: bolder; color: #fff; list-style: none; display: inline-block;}
+ol {clear: both; color: blue; font-weight: 100; display: inline-block;}
 .names {color: white; font-size: 30px;}
-.counter {font-size: 90px; font-weight: bolder; color: #fff;}
+.counter {font-size: 50px; font-weight: bolder; color: #fff;}
