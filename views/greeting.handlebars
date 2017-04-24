@@ -1,16 +1,16 @@
 <title>Greet me!</title>
+<div class="counter">
+  Counter: {{{count}}}
+</div>
 <h1>Greet me!!</h1>
   <form class="" action="/greeting" method="post">
-    <label for="nameInput">Enter your name below</label>
+    <label for="nameInput">Enter your name</label>
     <input type="text" name="nameInput" value="" class="name">
     <input type="submit" name="" value="greet" class="greet-btn">
     <br/>
-    <p><input type="radio" name="lang" value="english">English</p>
-    <p><input type="radio" name="lang" value="espanol">Espanol</p>
+    <p><input type="radio" name="lang" value="english">English |</p>
+    <p><input type="radio" name="lang" value="espanol">Espanol |</p>
     <p><input type="radio" name="lang" value="xhosa">isiXhosa</p>
   </form>
-  <h1>{{lang}} {{name}}</h1>
+  <h1>{{greeting}} {{name}}</h1>
   <br/>
-  <div class="counter">
-    Counter: {{{count}}}
-  </div>
