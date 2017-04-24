@@ -15,7 +15,10 @@ db.once('open', function() {
 });
 
 //a 'blueprint' for how it will accept the names
-var greetSchema = mongoose.Schema({name: String, greetCount: Number});
+var greetSchema = mongoose.Schema({
+    name: String,
+    greetCount: Number
+  });
 
 //how it will be model in the db
 var Greetings = mongoose.model('Greetings', greetSchema);
@@ -44,49 +47,62 @@ app.get('/greeting', function (req, res) {
   res.render('greeting');
 });
 
+//looks for the name in the database
 function manageGreeting(newName, cb) {
   Greetings.findOne({name: newName}, function(err, greetedName) {
     if (greetedName) {
-      Greetings.update({name: newName}, {counter: newName.greetCount + 1}, cb);
+      Greetings.update({name: newName}, {greetCount: Number(greetedName.greetCount) + 1}, cb);
+      console.log('Name updated');
       return;
     } else {
-      Greetings.create({name: newName}, cb);
+      Greetings.create({name: newName, greetCount : 1}, cb);
+      console.log('Name created');
       return;
     }
   });
 }
 
+//return the selected greet in prefared language
+function getMessage(language) {
+  if (language === 'english') {
+    return 'Hello';
+  } else if (language === 'espanol') {
+    return 'Hola';
+  } else if (language === 'xhosa') {
+    return 'Molo';
+  }
+}
+
 app.post('/greeting', function (req, res, next) {
-  for (var i = 0; i < namesGreeted.length; i++) {};
 
   var language = req.body.lang;
   var newName = req.body.nameInput;
 
-  function getMessage(language) {
-    if (language === 'english') {
-      return 'Hello';
-    } else if (language === 'espanol') {
-      return 'Hola';
-    } else if (language === 'xhosa') {
-      return 'Molo';
-    }
-  }
-  manageGreeting(newName, function(err, greeting) {
+
+  manageGreeting(newName, function(err, theGreeting) {
+    var greetingMessage = getMessage(language);
+    for (var i = 0; i < namesGreeted.length; i++) {};
     if (err) {
       return next(err);
       //console.log('Error storing name');
-    } else {
-      //return res.redirect('greeting');
-      var greetingMessage = getMessage(language);
-      //??? render with the new greeting...
-      res.render('greeting', {name: newName, count: count, greeting: greetingMessage});
+    } else if (namesGreeted[newName] !== undefined) {
+      res.render('greeting', {name: newName, count: theGreeting.greetCount, greeting: greetingMessage});
+    } else if (namesGreeted[newName] === undefined) {
+      namesGreeted[newName] = 1;
+      names.push(newName);
+      console.log(names);
+      Greetings.findOne({
+        name : newName
+      }, function(err, theGreeting){
+        res.render('greeting', {name: newName, count: theGreeting.greetCount, greeting: greetingMessage});
+      });
     }
   });
 });
 
-app.get('/history', function (req, res) {
+app.get('/greetings', function (req, res) {
   console.log('Request was made on: ' + req.url);
-  res.render('history', {names: names, count: count});
+  res.render('greetings', {names: names, count: count});
 });
 
 //server
