@@ -48,14 +48,14 @@ app.get('/greeting', function (req, res) {
 });
 
 //looks for the name in the database
-function manageGreeting(newName, cb) {
+function manageGreeting(newName, fn) {
   Greetings.findOne({name: newName}, function(err, greetedName) {
     if (greetedName) {
-      Greetings.update({name: newName}, {greetCount: Number(greetedName.greetCount) + 1}, cb);
+      Greetings.update({name: newName}, {greetCount: Number(greetedName.greetCount) + 1}, fn);
       console.log('Name updated');
       return;
     } else {
-      Greetings.create({name: newName, greetCount : 1}, cb);
+      Greetings.create({name: newName, greetCount : 1}, fn);
       console.log('Name created');
       return;
     }
@@ -78,8 +78,7 @@ app.post('/greeting', function (req, res, next) {
   var language = req.body.lang;
   var newName = req.body.nameInput;
 
-
-  manageGreeting(newName, function(err, theGreeting) {
+  var processGreetingResult = function(err, theGreeting) {
     var greetingMessage = getMessage(language);
     for (var i = 0; i < namesGreeted.length; i++) {};
     if (err) {
@@ -97,7 +96,10 @@ app.post('/greeting', function (req, res, next) {
         res.render('greeting', {name: newName, count: theGreeting.greetCount, greeting: greetingMessage});
       });
     }
-  });
+  }
+
+  manageGreeting(newName, processGreetingResult);
+
 });
 
 app.get('/greetings', function (req, res) {
