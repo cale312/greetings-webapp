@@ -2,11 +2,13 @@
 <h1>Greet me!!</h1>
   <form class="" action="/greeting" method="post">
     <div class="counter">
-      <p name="counter">Counter: {{{count}}}</p>
+      <input type="submit" class="resetBtn" name="resetBtn" value="Reset Counter">
+      <br/>
+      <label name="counter">Counter: {{{count}}}</label>
     </div>
     <label for="nameInput">Enter your name</label>
     <input type="text" name="nameInput" value="" class="name">
-    <input type="submit" name="" value="greet" class="greet-btn">
+    <input type="submit" name="greetBtn" value="greet" class="greet-btn">
     <br/>
     <p><input type="radio" name="lang" value="english">English |</p>
     <p><input type="radio" name="lang" value="espanol">Espanol |</p>
