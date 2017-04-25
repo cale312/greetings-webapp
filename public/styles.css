@@ -1,5 +1,6 @@
 body {background: skyblue; text-align: center;}
 h1 {
+  text-transform: uppercase;
   font-family: verdana;
   font-size: 90px;
   text-align: center;
