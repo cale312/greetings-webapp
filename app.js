@@ -47,6 +47,18 @@ app.get('/greeting', function (req, res) {
   res.render('greeting');
 });
 
+
+//return the selected greet in prefared language
+function getMessage(language) {
+  if (language === 'english') {
+    return 'Hello';
+  } else if (language === 'espanol') {
+    return 'Hola';
+  } else if (language === 'xhosa') {
+    return 'Molo';
+  }
+}
+
 //looks for the name in the database
 function manageGreeting(newName, fn) {
   Greetings.findOne({name: newName}, function(err, greetedName) {
@@ -62,44 +74,43 @@ function manageGreeting(newName, fn) {
   });
 }
 
-//return the selected greet in prefared language
-function getMessage(language) {
-  if (language === 'english') {
-    return 'Hello';
-  } else if (language === 'espanol') {
-    return 'Hola';
-  } else if (language === 'xhosa') {
-    return 'Molo';
-  }
-}
-
 app.post('/greeting', function (req, res, next) {
 
   var language = req.body.lang;
   var newName = req.body.nameInput;
+  var greetBtn = req.body.greetBtn;
+  var resetBtn = req.body.resetBtn;
 
-  var processGreetingResult = function(err, theGreeting) {
-    var greetingMessage = getMessage(language);
-    for (var i = 0; i < namesGreeted.length; i++) {};
-    if (err) {
-      return next(err);
-      //console.log('Error storing name');
-    } else if (namesGreeted[newName] !== undefined) {
-      res.render('greeting', {name: newName, count: theGreeting.greetCount, greeting: greetingMessage});
-    } else if (namesGreeted[newName] === undefined) {
-      namesGreeted[newName] = 1;
-      names.push(newName);
-      console.log(names);
-      Greetings.findOne({
-        name : newName
-      }, function(err, theGreeting){
+  if (greetBtn) {
+    var processGreetingResult = function(err, theGreeting) {
+      var greetingMessage = getMessage(language);
+      for (var i = 0; i < namesGreeted.length; i++) {};
+      if (err) {
+        return next(err);
+        //console.log('Error storing name');
+      } else if (namesGreeted[newName] !== undefined && newName !== "" && greetingMessage) {
         res.render('greeting', {name: newName, count: theGreeting.greetCount, greeting: greetingMessage});
-      });
+      } else if (namesGreeted[newName] === undefined && newName !== "" && greetingMessage) {
+        namesGreeted[newName] = 1;
+        names.push(newName);
+        console.log(names);
+        Greetings.findOne({name : newName}, function(err, theGreeting) {
+          res.render('greeting', {name: newName, count: theGreeting.greetCount, greeting: greetingMessage});
+        });
+      }
     }
+    manageGreeting(newName, processGreetingResult);
+  } else if (resetBtn) {
+    names = [];
+    Greetings.remove({}, function (err) {
+      if (err) {
+        console.log('Error removing names from DB');
+      } else {
+        console.log('Names removed from DB');
+      }
+    });
+    res.render('greeting', {});
   }
-
-  manageGreeting(newName, processGreetingResult);
-
 });
 
 app.get('/greetings', function (req, res) {
