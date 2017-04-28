@@ -2,15 +2,17 @@ module.exports = function(app) {
   'use strict';
   var mongoose = require('mongoose');
   var db = mongoose.connection;
+
   db.on('error', console.error.bind(console, 'connection error:'));
   db.once('open', function() {
     console.log('We are connected');
   });
 
+  mongoose.connect('mongodb://greet:greet@ds123371.mlab.com:23371/greetings-webapp');
+  // mongoose.connect('mongodb://localhost/greetings');
+
   var greetSchema = mongoose.Schema({name: String, greetCount: Number});
   var Greetings = mongoose.model('Greetings', greetSchema);
-
-  mongoose.connect('mongodb://localhost/greetings');
 
   var namesGreeted = {};
   var names = [];
