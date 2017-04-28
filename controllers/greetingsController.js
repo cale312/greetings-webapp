@@ -1,4 +1,5 @@
 module.exports = function(app) {
+  'use strict';
   var mongoose = require('mongoose');
   var db = mongoose.connection;
   db.on('error', console.error.bind(console, 'connection error:'));
@@ -17,6 +18,7 @@ module.exports = function(app) {
 
   //return the selected greet in prefared language
   function getMessage(language) {
+    'use strict';
     if (language === 'english') {
       return 'Hello';
     } else if (language === 'espanol') {
@@ -28,6 +30,7 @@ module.exports = function(app) {
 
   //looks for the name in the database
   function manageGreeting(newName, fn) {
+    'use strict';
     Greetings.findOne({name: newName}, function(err, greetedName) {
       if (greetedName) {
         Greetings.update({name: newName}, {greetCount: Number(greetedName.greetCount) + 1}, fn);
@@ -42,17 +45,19 @@ module.exports = function(app) {
   }
 
   app.get('/', function(req, res) {
+    'use strict';
     console.log('Request was made on: ' + req.url);
     res.render('index');
   });
 
   app.get('/greeting', function (req, res) {
+    'use strict';
     console.log('Request was made on: ' + req.url);
     res.render('greeting');
   });
 
   app.post('/greeting', function (req, res, next) {
-
+    'use strict';
     var language = req.body.lang;
     var newName = req.body.nameInput;
     var greetBtn = req.body.greetBtn;
@@ -60,6 +65,7 @@ module.exports = function(app) {
 
     if (greetBtn) {
       var processGreetingResult = function(err, theGreeting) {
+        'use strict';
         var greetingMessage = getMessage(language);
         for (var i = 0; i < namesGreeted.length; i++) {};
         if (err) {
@@ -80,6 +86,7 @@ module.exports = function(app) {
     } else if (resetBtn) {
       names = [];
       Greetings.remove({}, function (err) {
+        'use strict';
         if (err) {
           console.log('Error removing names from DB');
         } else {
@@ -91,6 +98,7 @@ module.exports = function(app) {
   });
 
   app.get('/greetings', function (req, res) {
+    'use strict';
     console.log('Request was made on: ' + req.url);
     res.render('greetings', {names: names, count: count});
   });
