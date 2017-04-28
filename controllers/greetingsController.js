@@ -8,8 +8,8 @@ module.exports = function(app) {
     console.log('We are connected');
   });
 
-  mongoose.connect('mongodb://greet:greet@ds123371.mlab.com:23371/greetings-webapp');
-  // mongoose.connect('mongodb://localhost/greetings');
+  const mongoURL = process.env.MONGO_DB_URL || "mongodb://localhost/greetings";
+  mongoose.connect(mongoURL);
 
   var greetSchema = mongoose.Schema({name: String, greetCount: Number});
   var Greetings = mongoose.model('Greetings', greetSchema);
@@ -72,21 +72,21 @@ module.exports = function(app) {
         for (var i = 0; i < namesGreeted.length; i++) {};
         if (err) {
           return next(err);
-          //console.log('Error storing name');
         } else if (namesGreeted[newName] !== undefined && newName !== "" && greetingMessage) {
           res.render('greeting', {name: newName, count: theGreeting.greetCount, greeting: greetingMessage});
         } else if (namesGreeted[newName] === undefined && newName !== "" && greetingMessage) {
           namesGreeted[newName] = 1;
+          count += 1;
           names.push(newName);
           console.log(names);
           Greetings.findOne({name : newName}, function(err, theGreeting) {
-            res.render('greeting', {name: newName, count: theGreeting.greetCount, greeting: greetingMessage});
+            res.render('greeting', {name: newName, count: count, greeting: greetingMessage});
           });
         }
       }
       manageGreeting(newName, processGreetingResult);
     } else if (resetBtn) {
-      names = [];
+      names = names;
       Greetings.remove({}, function (err) {
         'use strict';
         if (err) {
@@ -103,5 +103,19 @@ module.exports = function(app) {
     'use strict';
     console.log('Request was made on: ' + req.url);
     res.render('greetings', {names: names, count: count});
+  });
+
+  app.get('/counter/:nameInfo', function(req, res) {
+    'use strict';
+    Greetings.findOne({name : req.params.nameInfo}, function(err, result) {
+      if(err) {
+        console.log('Error!!!');
+      } else {
+        if(result) {
+          var named = result;
+          res.render('counter', named);
+        }
+      }
+    });
   });
 }
