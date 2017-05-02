@@ -12,12 +12,12 @@
   "author": "Cale",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "1.17.1",
-    "express": "4.15.2",
-    "express-handlebars": "3.0.0",
-    "handlebars": "4.0.6",
-    "mongoose": "4.9.5",
+    "body-parser": "v1.17.1",
+    "express": "v4.15.2",
+    "express-handlebars": "v3.0.0",
+    "handlebars": "v4.0.6",
+    "mongoose": "v4.9.5",
     "node": "v4.2.6",
-    "nodemon": "1.11.0"
+    "nodemon": "v1.11.0"
   }
 }
