@@ -13,7 +13,7 @@ module.exports = function(app) {
   mongoose.connect(mongoURL);
 
   var greetSchema = mongoose.Schema({name: String, greetCount: Number});
-  var greetings = mongoose.model('greetings', greetSchema);
+  var Greetings = mongoose.model('Greetings', greetSchema);
 
   var namesGreeted = {};
   var names = [];
@@ -34,14 +34,15 @@ module.exports = function(app) {
   //looks for the name in the database
   function manageGreeting(newName, fn) {
     'use strict';
-    greetings.findOne({name: newName}, function(err, greetedName) {
-      'use strict';
+    Greetings.findOne({name: newName}, function(err, greetedName) {
       if (greetedName) {
-        greetings.update({name: newName}, {greetCount: Number(greetedName.greetCount) + 1}, fn);
+        Greetings.update({name: newName}, {greetCount: Number(greetedName.greetCount) + 1}, fn);
+        'use strict';
         console.log('Name updated');
         return;
       } else {
-        greetings.create({name: newName, greetCount : 1}, fn);
+        Greetings.create({name: newName, greetCount : 1}, fn);
+        'use strict';
         console.log('Name created');
         return;
       }
@@ -57,7 +58,7 @@ module.exports = function(app) {
   app.get('/greeting', function (req, res) {
     'use strict';
     console.log('Request was made on: ' + req.url);
-    res.render('greeting', {count: count});
+    res.render('greeting');
   });
 
   app.post('/greeting', function (req, res, next) {
@@ -70,37 +71,34 @@ module.exports = function(app) {
     if (greetBtn) {
       var processGreetingResult = function(err, theGreeting) {
         'use strict';
-        var greetCount = theGreeting.greetCount;
         var greetingMessage = getMessage(language);
         for (var i = 0; i < namesGreeted.length; i++) {};
         if (err) {
           return next(err);
         } else if (namesGreeted[newName] !== undefined && newName !== "" && greetingMessage) {
-          res.render('greeting', {name: newName, count: count, greeting: greetingMessage});
+          res.render('greeting', {name: newName, count: theGreeting.greetCount, greeting: greetingMessage});
         } else if (namesGreeted[newName] === undefined && newName !== "" && greetingMessage) {
-          count += 1;
           namesGreeted[newName] = 1;
           names.push(newName);
           console.log(names);
-          greetings.findOne({name : newName}, function(err, theGreeting) {
+          Greetings.findOne({name : newName}, function(err, theGreeting) {
             'use strict';
-            res.render('greeting', {name: newName, count: count, greeting: greetingMessage});
+            res.render('greeting', {name: newName, count: theGreeting.greetCount, greeting: greetingMessage});
           });
         }
       }
       manageGreeting(newName, processGreetingResult);
     } else if (resetBtn) {
       names = names;
-      count = 0;
-      greetings.update({}, {$set: {greetCount: 0}}, function (err) {
+      Greetings.remove({}, function (err) {
         'use strict';
         if (err) {
           console.log('Error removing names from DB');
         } else {
-          console.log('Names updated');
+          console.log('Names removed from DB');
         }
       });
-      res.render('greeting', {name: "", count: count});
+      res.render('greeting', {});
     }
   });
 
@@ -112,7 +110,7 @@ module.exports = function(app) {
 
   app.get('/counter/:nameInfo', function(req, res) {
     'use strict';
-    greetings.findOne({name : req.params.nameInfo}, function(err, result) {
+    Greetings.findOne({name : req.params.nameInfo}, function(err, result) {
       if(err) {
         console.log('Error!!!');
       } else {
