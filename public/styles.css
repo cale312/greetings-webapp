@@ -13,7 +13,7 @@ h2 {
   color: #fff;
   letter-spacing: .1em;
 }
-h4 {letter-spacing: .1em; text-transform: uppercase; color: #fff; font-weight: bolder; text-transform: uppercase;}
+h4 {font-size: 2em; letter-spacing: .1em; text-transform: uppercase; color: #fff; font-weight: bolder; text-transform: uppercase;}
 td {color: #fff}
 p {
   text-align: center;
@@ -22,26 +22,21 @@ p {
   font-size: 30px;
 }
 form p {display: inline-block; cursor: pointer;}
-label {
-  color: #fff;
-  font-weight: bolder;
-}
-form {
-  text-align: center;
-  font-size: 40px;
-}
-.name {
-  padding: 5px;
-}
+label { color: #fff; font-weight: bolder;}
+form {text-align: center; font-size: 40px;}
+.name {padding: 5px;}
 .greet-btn {
   padding: 7px 30px;
   background: rgba(0, 0, 255, 0.3);
   cursor: pointer;
   font-weight: bolder;
-  border: none;
+  border: solid 2px white;
+  border-radius: 10px;
+  color: #fff;
+  text-transform: uppercase;
 }
-.greet-btn:hover {background: rgba(0, 0, 255, 0.5); box-shadow: 0px 0px 2px}
-.resetBtn {border: none; padding: 5px 10px; font-family: monospace; cursor: pointer;}
+.greet-btn:hover {color: skyblue; background: rgba(255, 255, 255, 0.5); box-shadow: 0px 0px 2px}
+.resetBtn {text-shadow: 0px 0px 2px black; font-weight: bolder; color: skyblue; border-radius: 10px; border: solid 2px #fff; padding: 10px 10px; font-family: monospace; cursor: pointer;}
 .resetBtn:hover {background: white; box-shadow: 0px 0px 5px black}
 .nav {font-size: 30px; font-weight: bolder; color: #fff; list-style: none; display: inline-block;}
 nav {background: rgba(255, 255, 255, 0.5); padding: .1px;}
@@ -49,4 +44,6 @@ nav a {color: #fff; padding: 16px 5px; text-decoration: none;}
 nav a:hover {background: rgba(255, 255, 255, 0.8); color: powderblue}
 .names {color: white; font-size: 30px;}
 .counter {font-size: 50px; font-weight: bolder; color: #fff;}
-.greetedNames {display: inline-block; list-style: circle;}
+.greetedNames li{list-style: none;}
+.greetedNames li a{font-size: 2em; text-decoration: none; font-weight: bolder; display: inline-block;}
+.greetedNames li a:hover{text-decoration: underline;}
