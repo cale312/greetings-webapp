@@ -4,6 +4,7 @@
   "description": "greetings express app",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
@@ -13,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "v1.17.1",
-    "express": "v4.15.2",
+    "express": "4.15.2",
     "express-handlebars": "v3.0.0",
     "handlebars": "v4.0.6",
     "mongoose": "v4.9.5",
