@@ -17,7 +17,7 @@
     "express": "4.15.2",
     "express-handlebars": "v3.0.0",
     "handlebars": "v4.0.6",
-    "mongoose": "v4.9.5",
+    "mongoose": "^4.9.5",
     "node": "v4.2.6",
     "nodemon": "v1.11.0"
   }
