@@ -5,6 +5,7 @@ module.exports = function(app) {
 
   db.on('error', console.error.bind(console, 'connection error:'));
   db.once('open', function() {
+    'use strict';
     console.log('We are connected');
   });
 
@@ -34,6 +35,7 @@ module.exports = function(app) {
   function manageGreeting(newName, fn) {
     'use strict';
     Greetings.findOne({name: newName}, function(err, greetedName) {
+      'use strict';
       if (greetedName) {
         Greetings.update({name: newName}, {greetCount: Number(greetedName.greetCount) + 1}, fn);
         console.log('Name updated');
@@ -76,11 +78,11 @@ module.exports = function(app) {
           res.render('greeting', {name: newName, count: theGreeting.greetCount, greeting: greetingMessage});
         } else if (namesGreeted[newName] === undefined && newName !== "" && greetingMessage) {
           namesGreeted[newName] = 1;
-          count += 1;
           names.push(newName);
           console.log(names);
           Greetings.findOne({name : newName}, function(err, theGreeting) {
-            res.render('greeting', {name: newName, count: count, greeting: greetingMessage});
+            'use strict';
+            res.render('greeting', {name: newName, count: theGreeting.greetCount, greeting: greetingMessage});
           });
         }
       }
