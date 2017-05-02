@@ -13,7 +13,7 @@ h2 {
   color: #fff;
   letter-spacing: .1em;
 }
-h4 {letter-spacing: .1em; text-transform: uppercase; color: #fff; font-weight: bolder;}
+h4 {letter-spacing: .1em; text-transform: uppercase; color: #fff; font-weight: bolder; text-transform: uppercase;}
 td {color: #fff}
 p {
   text-align: center;
@@ -47,6 +47,6 @@ form {
 nav {background: rgba(255, 255, 255, 0.5); padding: .1px;}
 nav a {color: #fff; padding: 16px 5px; text-decoration: none;}
 nav a:hover {background: rgba(255, 255, 255, 0.8); color: powderblue}
-ol {clear: both; color: blue; font-weight: 100; display: inline-block;}
 .names {color: white; font-size: 30px;}
 .counter {font-size: 50px; font-weight: bolder; color: #fff;}
+.greetedNames {display: inline-block; list-style: circle;}
