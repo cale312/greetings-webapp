@@ -12,7 +12,10 @@ module.exports = function(app) {
   const mongoURL = process.env.MONGO_DB_URL || "mongodb://localhost/greetings";
   mongoose.connect(mongoURL);
 
-  var greetSchema = mongoose.Schema({name: String, greetCount: Number});
+  var greetSchema = mongoose.Schema({
+    name: String,
+    greetCount: Number
+  });
   var greetings = mongoose.model('greetings', greetSchema);
 
   var namesGreeted = {};
@@ -34,14 +37,23 @@ module.exports = function(app) {
   //looks for the name in the database
   function manageGreeting(newName, fn) {
     'use strict';
-    greetings.findOne({name: newName}, function(err, greetedName) {
+    greetings.findOne({
+      name: newName
+    }, function(err, greetedName) {
       if (greetedName) {
-        greetings.update({name: newName}, {greetCount: Number(greetedName.greetCount) + 1}, fn);
+        greetings.update({
+          name: newName
+        }, {
+          greetCount: Number(greetedName.greetCount) + 1
+        }, fn);
         'use strict';
         console.log('Name updated');
         return;
       } else {
-        greetings.create({name: newName, greetCount : 1}, fn);
+        greetings.create({
+          name: newName,
+          greetCount: 1
+        }, fn);
         'use strict';
         console.log('Name created');
         return;
@@ -55,13 +67,15 @@ module.exports = function(app) {
     res.render('index');
   });
 
-  app.get('/greeting', function (req, res) {
+  app.get('/greeting', function(req, res) {
     'use strict';
     console.log('Request was made on: ' + req.url);
-    res.render('greeting', {count});
+    res.render('greeting', {
+      count
+    });
   });
 
-  app.post('/greeting', function (req, res, next) {
+  app.post('/greeting', function(req, res, next) {
     'use strict';
     var language = req.body.lang;
     var newName = req.body.nameInput;
@@ -76,13 +90,23 @@ module.exports = function(app) {
         if (err) {
           return next(err);
         } else if (namesGreeted[newName] !== undefined && newName !== "" && greetingMessage) {
-          res.render('greeting', {name: newName, count: count, greeting: greetingMessage});
+          res.render('greeting', {
+            name: newName,
+            count: count,
+            greeting: greetingMessage
+          });
         } else if (namesGreeted[newName] === undefined && newName !== "" && greetingMessage) {
           namesGreeted[newName] = 1;
           count += 1;
-          greetings.findOne({name : newName}, function(err, theGreeting) {
+          greetings.findOne({
+            name: newName
+          }, function(err, theGreeting) {
             'use strict';
-            res.render('greeting', {name: newName, count: count, greeting: greetingMessage});
+            res.render('greeting', {
+              name: newName,
+              count: count,
+              greeting: greetingMessage
+            });
           });
         }
       }
@@ -90,7 +114,13 @@ module.exports = function(app) {
     } else if (resetBtn) {
       names = names;
       count = 0;
-      greetings.update({}, {$set: {greetCount: 0}}, {multi : true}, function (err) {
+      greetings.update({}, {
+        $set: {
+          greetCount: 0
+        }
+      }, {
+        multi: true
+      }, function(err) {
         'use strict';
         if (err) {
           console.log('Error removing names from DB');
@@ -98,11 +128,13 @@ module.exports = function(app) {
           console.log('Names counter reset successful');
         }
       });
-      res.render('greeting', {count: count});
+      res.render('greeting', {
+        count: count
+      });
     }
   });
 
-  app.get('/greeted', function (req, res) {
+  app.get('/greeted', function(req, res) {
     'use strict';
     var names = [];
     greetings.find({}, function(err, gNames) {
@@ -111,18 +143,23 @@ module.exports = function(app) {
         names.push(curObj);
       }
       console.log(names);
-      res.render('greeted', {names: names, count: count});
+      res.render('greeted', {
+        names: names,
+        count: count
+      });
     });
     console.log('Request was made on: ' + req.url);
   });
 
   app.get('/counter/:nameInfo', function(req, res) {
     'use strict';
-    greetings.findOne({name : req.params.nameInfo}, function(err, result) {
-      if(err) {
+    greetings.findOne({
+      name: req.params.nameInfo
+    }, function(err, result) {
+      if (err) {
         console.log('Error!!!');
       } else {
-        if(result) {
+        if (result) {
           var named = result;
           res.render('counter', named);
         }
