@@ -1,11 +1,10 @@
+'use strict';
 module.exports = function(app) {
-  'use strict';
   var mongoose = require('mongoose');
   var db = mongoose.connection;
 
   db.on('error', console.error.bind(console, 'connection error:'));
   db.once('open', function() {
-    'use strict';
     console.log('We are connected');
   });
 
@@ -24,7 +23,6 @@ module.exports = function(app) {
 
   //return the selected greet in prefared language
   function getMessage(language) {
-    'use strict';
     if (language === 'english') {
       return 'Hello';
     } else if (language === 'espanol') {
@@ -36,7 +34,6 @@ module.exports = function(app) {
 
   //looks for the name in the database
   function manageGreeting(newName, fn) {
-    'use strict';
     greetings.findOne({
       name: newName
     }, function(err, greetedName) {
@@ -46,7 +43,6 @@ module.exports = function(app) {
         }, {
           greetCount: Number(greetedName.greetCount) + 1
         }, fn);
-        'use strict';
         console.log('Name updated');
         return;
       } else {
@@ -54,7 +50,6 @@ module.exports = function(app) {
           name: newName,
           greetCount: 1
         }, fn);
-        'use strict';
         console.log('Name created');
         return;
       }
@@ -62,13 +57,11 @@ module.exports = function(app) {
   }
 
   app.get('/', function(req, res) {
-    'use strict';
     console.log('Request was made on: ' + req.url);
     res.render('index');
   });
 
   app.get('/greeting', function(req, res) {
-    'use strict';
     console.log('Request was made on: ' + req.url);
     res.render('greeting', {
       count
@@ -76,7 +69,6 @@ module.exports = function(app) {
   });
 
   app.post('/greeting', function(req, res, next) {
-    'use strict';
     var language = req.body.lang;
     var newName = req.body.nameInput;
     var greetBtn = req.body.greetBtn;
@@ -84,7 +76,6 @@ module.exports = function(app) {
 
     if (greetBtn) {
       var processGreetingResult = function(err, theGreeting) {
-        'use strict';
         var greetingMessage = getMessage(language);
         for (var i = 0; i < namesGreeted.length; i++) {};
         if (err) {
@@ -101,7 +92,6 @@ module.exports = function(app) {
           greetings.findOne({
             name: newName
           }, function(err, theGreeting) {
-            'use strict';
             res.render('greeting', {
               name: newName,
               count: count,
@@ -121,7 +111,6 @@ module.exports = function(app) {
       }, {
         multi: true
       }, function(err) {
-        'use strict';
         if (err) {
           console.log('Error removing names from DB');
         } else {
@@ -135,7 +124,6 @@ module.exports = function(app) {
   });
 
   app.get('/greeted', function(req, res) {
-    'use strict';
     var names = [];
     greetings.find({}, function(err, gNames) {
       for (var j = 0; j < gNames.length; j++) {
@@ -152,7 +140,6 @@ module.exports = function(app) {
   });
 
   app.get('/counter/:nameInfo', function(req, res) {
-    'use strict';
     greetings.findOne({
       name: req.params.nameInfo
     }, function(err, result) {
