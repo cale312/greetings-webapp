@@ -11,7 +11,7 @@ module.exports = function(app) {
   db.once('open', function() {
     console.log('We are connected');
   });
-  
+
   var greetSchema = mongoose.Schema({
     name: String,
     greetCount: Number
