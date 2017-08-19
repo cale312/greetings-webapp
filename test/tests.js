@@ -1,6 +1,9 @@
 const assert = require('assert');
+const mongoose = require('mongoose');
 const getName = require('../controllers/getNameController');
 const getMessage = require('../controllers/greetMessageController');
+
+mongoose.Promise = global.Promise;
 
 describe('Tests for saving new name to the database', function() {
 
