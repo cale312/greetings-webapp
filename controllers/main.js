@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const getMessage = require('./greetMessageController');
 const getName = require('./getNameController');
@@ -14,7 +14,7 @@ module.exports = function(app) {
     res.render('greetForm');
   });
 
-  app.post('/greeting', function(req, res, next) {
+  app.post('/greeting', function(req, res) {
     var language = req.body.lang;
     var newName = req.body.input;
 
@@ -25,7 +25,7 @@ module.exports = function(app) {
   });
 
   app.get('/greeted', function(req, res) {
-
+      res.render('greeted');
   });
 
   app.get('/counter/:nameInfo', function(req, res) {
@@ -36,10 +36,9 @@ module.exports = function(app) {
         console.log('Error!!!');
       } else {
         if (result) {
-          var named = result;
-          res.render('counter', named);
+          res.render('counter', result);
         }
       }
     });
   });
-}
+};

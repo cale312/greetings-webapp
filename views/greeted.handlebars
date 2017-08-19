@@ -3,6 +3,6 @@
 <h4><u>People Greeted thus far</u></h4>
 <ul class="greetedNames">
   {{#each names}}
-    <li><a href="counter/{{this}}">{{this}}</a></li>
+    <li><a href="counter/{{this.name}}">{{this.greetCount}}</a></li>
   {{/each}}
 </ul>
