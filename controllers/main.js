@@ -2,7 +2,8 @@
 
 const getMessage = require('./greetMessageController');
 const getName = require('./getNameController');
-const getAllNames = require('./getAllNamesController');
+const getCounter = require('./counterController');
+const greeted = require('../models/nameSchemaModel');
 
 module.exports = function(app) {
 
@@ -11,6 +12,7 @@ module.exports = function(app) {
   });
 
   app.get('/greeting', function(req, res) {
+      // console.log(getCounter())
     res.render('greetForm');
   });
 
@@ -24,12 +26,19 @@ module.exports = function(app) {
 
   });
 
+
   app.get('/greeted', function(req, res) {
-      res.render('greeted');
+      greeted.find({}, function(err, results) {
+          if (err) {
+              return err;
+          } else {
+              res.render('greeted', {names: results})
+          }
+      });
   });
 
   app.get('/counter/:nameInfo', function(req, res) {
-    greetings.findOne({
+    greeted.findOne({
       name: req.params.nameInfo
     }, function(err, result) {
       if (err) {
