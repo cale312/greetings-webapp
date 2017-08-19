@@ -1,12 +1,8 @@
 const greeted = require('../models/nameSchemaModel');
 
-var namesObj = {};
-
 module.exports = function(theName) {
 
-    if (namesObj[theName] !== undefined) {
-
-        namesObj[theName] += 1;
+    if (true) {
 
         greeted.findOneAndUpdate({
             name: theName
@@ -15,19 +11,15 @@ module.exports = function(theName) {
                 greetCount: 1
             }
         }).then(function(result) {
-            console.log('Update done')
-        }).catch(function(err) {
-            console.log(err);
-        });
-    } else {
-
-        namesObj[theName] = 1;
-
-        greeted.create({
-           name: theName,
-           greetCount: 1
-        }).then(function(result) {
-            console.log('New name added!');
+            if (result) {
+                console.log('Update done')
+            } else {
+                greeted.create({
+                    name: theName,
+                    greetCount: 1
+                });
+                console.log('New name added!');
+            }
         }).catch(function(err) {
             console.log(err);
         });
