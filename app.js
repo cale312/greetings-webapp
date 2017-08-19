@@ -1,8 +1,11 @@
 var express = require('express');
 var exphbs = require('express-handlebars');
 var bodyParser = require('body-parser');
-var greetingsController = require('./controllers/greetingsController');
+var greetingsController = require('./controllers/main');
 var app = express();
+
+const connectDB = require('./models/dbConnection');
+connectDB();
 
 app.use('/public', express.static('public'));
 app.use(bodyParser.urlencoded({

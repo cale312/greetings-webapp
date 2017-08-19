@@ -1,0 +1,16 @@
+<title>Greet me!</title>
+
+<div class="container well text-center">
+    <form method="post" action="/greeting" class="form-group-lg form-inline">
+        <input class="form-control input" name="input" placeholder="enter name here..." required><br><br>
+        <input class="radio" type="radio" name="lang" value="eng" required> English
+        <input class="radio" type="radio" name="lang"value="xho" required> isiXhosa
+        <input class="radio" type="radio" name="lang" value="esp" required> Espanol
+        <br><br>
+        <input type="submit" class="btn btn-primary sbmt-btn" name="submit" value="greet me">
+    </form>
+    <hr>
+    <div class="container-fluid jumbotron">
+        <h1>{{greetMessage}}</h1>
+    </div>
+</div>
