@@ -3,7 +3,9 @@ module.exports = function(app) {
   var mongoose = require('mongoose');
 
   const mongoURL = process.env.MONGO_DB_URL || "mongodb://localhost/greetings";
-  mongoose.connect(mongoURL);
+  mongoose.connect(mongoURL, {
+    useMongoClient: true
+  });
 
   var db = mongoose.connection;
 
